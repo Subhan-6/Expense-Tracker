@@ -1,4 +1,4 @@
-# Expense Tracker
+﻿# Expense Tracker
 
 A Flutter expense tracking app with local SQLite storage.
 
