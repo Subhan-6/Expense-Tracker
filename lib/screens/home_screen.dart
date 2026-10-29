@@ -5,6 +5,7 @@ import 'add_edit_expense_screen.dart';
 import 'categories_screen.dart';
 import 'dashboard_screen.dart';
 import 'history_screen.dart';
+import 'insights_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,15 +17,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
 
-  static const _titles = ['Dashboard', 'History', 'Categories'];
+  static const int _categoriesTab = 3;
+  static const _titles = ['Dashboard', 'History', 'Insights', 'Categories'];
   static const _pages = <Widget>[
     DashboardScreen(),
     HistoryScreen(),
+    InsightsScreen(),
     CategoriesScreen(),
   ];
 
   void _onFabPressed() {
-    if (_index == 2) {
+    if (_index == _categoriesTab) {
       showCategoryFormDialog(context);
     } else {
       AddEditExpenseScreen.open(context);
@@ -39,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _onFabPressed,
         icon: const Icon(Icons.add),
-        label: Text(_index == 2 ? 'Category' : 'Expense'),
+        label: Text(_index == _categoriesTab ? 'Category' : 'Expense'),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
@@ -53,6 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.receipt_long_outlined),
               selectedIcon: Icon(Icons.receipt_long),
               label: 'History'),
+          NavigationDestination(
+              icon: Icon(Icons.insights_outlined),
+              selectedIcon: Icon(Icons.insights),
+              label: 'Insights'),
           NavigationDestination(
               icon: Icon(Icons.category_outlined),
               selectedIcon: Icon(Icons.category),

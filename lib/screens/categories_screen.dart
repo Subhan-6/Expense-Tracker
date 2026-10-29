@@ -36,12 +36,12 @@ class CategoriesScreen extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.only(bottom: 96),
       itemCount: items.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
+      separatorBuilder: (_, _) => const Divider(height: 1),
       itemBuilder: (context, i) {
         final c = items[i];
         return ListTile(
           leading: CircleAvatar(
-            backgroundColor: c.color.withOpacity(0.15),
+            backgroundColor: c.color.withValues(alpha: 0.15),
             child: Icon(c.icon, color: c.color),
           ),
           title: Text(c.name),

@@ -23,11 +23,11 @@ class ExpenseTile extends StatelessWidget {
       onTap: onTap,
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        backgroundColor: color.withOpacity(0.15),
+        backgroundColor: color.withValues(alpha: 0.15),
         child: Icon(category?.icon ?? Icons.help_outline, color: color),
       ),
       title: Text(expense.title),
-      subtitle: Text('${category?.name ?? 'Unknown'} • ${Fmt.date(expense.date)}'),
+      subtitle: Text('${category?.name ?? 'Unknown'} â€¢ ${Fmt.date(expense.date)}'),
       trailing: Text(
         Fmt.money(expense.amount),
         style: const TextStyle(fontWeight: FontWeight.w600),

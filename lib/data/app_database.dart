@@ -1,10 +1,12 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-/// Opens the SQLite database once and creates the schema.
+/// Opens the SQLite database once and creates / migrates the schema.
 class AppDatabase {
   AppDatabase._();
   static final AppDatabase instance = AppDatabase._();
+
+  static const int _version = 2;
 
   Database? _db;
 
@@ -14,9 +16,10 @@ class AppDatabase {
     final path = join(await getDatabasesPath(), 'expense_tracker.db');
     return openDatabase(
       path,
-      version: 1,
+      version: _version,
       onConfigure: (db) => db.execute('PRAGMA foreign_keys = ON'),
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -44,6 +47,7 @@ class AppDatabase {
         month TEXT PRIMARY KEY,
         amount REAL NOT NULL
       )''');
+    await _createIncomesTable(db);
 
     const defaults = ['Food', 'Transport', 'Shopping', 'Bills', 'Entertainment', 'Health'];
     final batch = db.batch();
@@ -55,5 +59,20 @@ class AppDatabase {
       });
     }
     await batch.commit(noResult: true);
+  }
+
+  /// v1 -> v2: monthly income (needed for savings calculations).
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _createIncomesTable(db);
+    }
+  }
+
+  Future<void> _createIncomesTable(Database db) {
+    return db.execute('''
+      CREATE TABLE incomes (
+        month TEXT PRIMARY KEY,
+        amount REAL NOT NULL
+      )''');
   }
 }

@@ -85,7 +85,7 @@ class _CategoryFormDialogState extends State<_CategoryFormDialog> {
                     child: CircleAvatar(
                       radius: 20,
                       backgroundColor: i == _iconIndex
-                          ? color.withOpacity(0.25)
+                          ? color.withValues(alpha: 0.25)
                           : Colors.transparent,
                       child: Icon(kCategoryIcons[i],
                           color: i == _iconIndex ? color : Colors.grey),
